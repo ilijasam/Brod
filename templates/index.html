@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slavonski Brod Weather</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <main class="container">
+    <h1>Slavonski Brod Weather Analyzer</h1>
+    <p>Choose a date range and compare the same period across the last N years.</p>
+
+    <section class="card">
+      <form method="get" action="/">
+        <div class="grid">
+          <label>
+            From
+            <input type="date" name="from" value="{{ from_value }}" required />
+          </label>
+          <label>
+            To
+            <input type="date" name="to" value="{{ to_value }}" required />
+          </label>
+          <label>
+            Last N years
+            <input type="number" name="years" min="1" max="30" value="{{ years_value }}" required />
+          </label>
+        </div>
+        <button type="submit">Load summary</button>
+      </form>
+
+      <div class="btn-row">
+        <a class="btn" target="_blank" rel="noopener"
+           href="{{ url_for('plot_daily', from=from_value, to=to_value, years=years_value) }}">
+          Open daily average graph
+        </a>
+        <a class="btn" target="_blank" rel="noopener"
+           href="{{ url_for('plot_hourly', from=from_value, to=to_value, years=years_value) }}">
+          Open hourly graph
+        </a>
+      </div>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Average, Min, and Max by year (selected period)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Average (°C)</th>
+            <th>Min (°C)</th>
+            <th>Max (°C)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in summary_rows %}
+          <tr>
+            <td>{{ row.year }}</td>
+            <td>{{ row.avg }}</td>
+            <td>{{ row.min }}</td>
+            <td>{{ row.max }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
