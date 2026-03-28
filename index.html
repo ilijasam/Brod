@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slavonski Brod Weather Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <h1>Slavonski Brod Temperature Explorer</h1>
+    <p class="subtitle">
+      Compare the same date range across the last N years using real historical weather data.
+    </p>
+
+    <section class="card controls">
+      <h2>Parameters</h2>
+      <form id="weather-form">
+        <div class="grid">
+          <label>
+            From date
+            <input id="from-date" type="date" required />
+          </label>
+          <label>
+            To date
+            <input id="to-date" type="date" required />
+          </label>
+          <label>
+            Last N years
+            <input id="years" type="number" min="1" max="30" value="5" required />
+          </label>
+        </div>
+        <button id="load-btn" type="submit">Load weather</button>
+      </form>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>Yearly summary for selected period</h2>
+      <div class="table-wrap">
+        <table id="summary-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Average Mean Temp (°C)</th>
+              <th>Minimum Temp (°C)</th>
+              <th>Maximum Temp (°C)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Daily mean temperature by year</h2>
+      <canvas id="temp-chart" height="120"></canvas>
+    </section>
+  </main>
+</body>
+</html>
